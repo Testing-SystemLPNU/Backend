@@ -1,4 +1,4 @@
-package com.example.Testing.System.service.imp;
+package com.example.Testing.System.service.impl;
 
 import com.example.Testing.System.service.TicketService;
 import lombok.AllArgsConstructor;
