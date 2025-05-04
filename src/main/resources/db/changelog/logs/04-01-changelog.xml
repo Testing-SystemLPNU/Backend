@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.23.xsd
+http://www.liquibase.org/xml/ns/dbchangelog "
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1746387980434-1" author="zz">
+        <createTable tableName="checkhistory">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_checkhistory"/>
+            </column>
+            <column name="user_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ticket_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="recognized_answers" type="CLOB">
+                <constraints nullable="false"/>
+            </column>
+            <column name="score" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="DATETIME"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1746387980434-2" author="zz">
+        <createTable tableName="courses">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_courses"/>
+            </column>
+            <column name="user_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(2147483647)"/>
+            <column name="created_at" type="DATETIME"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1746387980434-3" author="zz">
+        <createTable tableName="questions">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_questions"/>
+            </column>
+            <column name="course_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="question_text" type="VARCHAR(2147483647)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="option_a" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="option_b" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="option_c" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="option_d" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="correct_option" type="VARCHAR(2147483647)"/>
+            <column name="created_at" type="DATETIME"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1746387980434-4" author="zz">
+        <createTable tableName="ticketquestions">
+            <column name="ticket_id" type="INT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_ticketquestions"/>
+            </column>
+            <column name="question_id" type="INT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_ticketquestions"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1746387980434-5" author="zz">
+        <createTable tableName="tickets">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_tickets"/>
+            </column>
+            <column name="course_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ticket_number" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="DATETIME"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1746387980434-6" author="zz">
+        <createTable tableName="users">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_users"/>
+            </column>
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password_hash" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="full_name" type="VARCHAR(255)"/>
+            <column name="created_at" type="DATETIME"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1746387980434-7" author="zz">
+        <addUniqueConstraint columnNames="email" constraintName="uc_users_email" tableName="users"/>
+    </changeSet>
+    <changeSet id="1746387980434-8" author="zz">
+        <addForeignKeyConstraint baseColumnNames="ticket_id" baseTableName="checkhistory"
+                                 constraintName="FK_CHECKHISTORY_ON_TICKET" onDelete="CASCADE"
+                                 referencedColumnNames="id" referencedTableName="tickets"/>
+    </changeSet>
+    <changeSet id="1746387980434-9" author="zz">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="checkhistory"
+                                 constraintName="FK_CHECKHISTORY_ON_USER" onDelete="CASCADE" referencedColumnNames="id"
+                                 referencedTableName="users"/>
+    </changeSet>
+    <changeSet id="1746387980434-10" author="zz">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="courses" constraintName="FK_COURSES_ON_USER"
+                                 onDelete="CASCADE" referencedColumnNames="id" referencedTableName="users"/>
+    </changeSet>
+    <changeSet id="1746387980434-11" author="zz">
+        <addForeignKeyConstraint baseColumnNames="course_id" baseTableName="questions"
+                                 constraintName="FK_QUESTIONS_ON_COURSE" onDelete="CASCADE" referencedColumnNames="id"
+                                 referencedTableName="courses"/>
+    </changeSet>
+    <changeSet id="1746387980434-12" author="zz">
+        <addForeignKeyConstraint baseColumnNames="question_id" baseTableName="ticketquestions"
+                                 constraintName="FK_TICKETQUESTIONS_ON_QUESTION" onDelete="CASCADE"
+                                 referencedColumnNames="id" referencedTableName="questions"/>
+    </changeSet>
+    <changeSet id="1746387980434-13" author="zz">
+        <addForeignKeyConstraint baseColumnNames="ticket_id" baseTableName="ticketquestions"
+                                 constraintName="FK_TICKETQUESTIONS_ON_TICKET" onDelete="CASCADE"
+                                 referencedColumnNames="id" referencedTableName="tickets"/>
+    </changeSet>
+    <changeSet id="1746387980434-14" author="zz">
+        <addForeignKeyConstraint baseColumnNames="course_id" baseTableName="tickets"
+                                 constraintName="FK_TICKETS_ON_COURSE" onDelete="CASCADE" referencedColumnNames="id"
+                                 referencedTableName="courses"/>
+    </changeSet>
+
+</databaseChangeLog>

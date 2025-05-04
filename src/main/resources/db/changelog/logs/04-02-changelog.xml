@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.29.xsd">
+    <changeSet id="inserts-1-users" author="zz">
+        <insert tableName="users">
+            <column name="id" valueNumeric="1"/>
+            <column name="email" value="use1r@example.com"/>
+            <column name="password_hash" value="newSecure1234"/>
+            <column name="full_name" value="Ivan Petrenko"/>
+            <column name="created_at" valueDate="2025-05-04T00:00:00"/>
+        </insert>
+        <insert tableName="users">
+            <column name="id" valueNumeric="2"/>
+            <column name="email" value="user2@example.com"/>
+            <column name="password_hash" value="anotherPassword"/>
+            <column name="full_name" value="Oksana Shevchenko"/>
+            <column name="created_at" valueDate="2025-05-04T00:00:00"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="inserts-2-courses" author="zz">
+        <insert tableName="courses">
+            <column name="id" valueNumeric="1"/>
+            <column name="user_id" valueNumeric="1"/>
+            <column name="title" value="Mathematics"/>
+            <column name="description" value="Basic algebra and geometry"/>
+            <column name="created_at" valueDate="2025-05-04T00:00:00"/>
+        </insert>
+        <insert tableName="courses">
+            <column name="id" valueNumeric="2"/>
+            <column name="user_id" valueNumeric="2"/>
+            <column name="title" value="Computer Science"/>
+            <column name="description" value="Intro to programming"/>
+            <column name="created_at" valueDate="2025-05-04T00:00:00"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="inserts-3-questions" author="zz">
+        <insert tableName="questions">
+            <column name="id" valueNumeric="1"/>
+            <column name="course_id" valueNumeric="1"/>
+            <column name="question_text" value="What is 2+2?"/>
+            <column name="option_a" value="3"/>
+            <column name="option_b" value="4"/>
+            <column name="option_c" value="5"/>
+            <column name="option_d" value="6"/>
+            <column name="correct_option" value="B"/>
+            <column name="created_at" valueDate="2025-05-04T00:00:00"/>
+        </insert>
+        <insert tableName="questions">
+            <column name="id" valueNumeric="2"/>
+            <column name="course_id" valueNumeric="1"/>
+            <column name="question_text" value="What is 3*3?"/>
+            <column name="option_a" value="6"/>
+            <column name="option_b" value="9"/>
+            <column name="option_c" value="12"/>
+            <column name="option_d" value="15"/>
+            <column name="correct_option" value="B"/>
+            <column name="created_at" valueDate="2025-05-04T00:00:00"/>
+        </insert>
+        <insert tableName="questions">
+            <column name="id" valueNumeric="3"/>
+            <column name="course_id" valueNumeric="2"/>
+            <column name="question_text" value="What is Java?"/>
+            <column name="option_a" value="A drink"/>
+            <column name="option_b" value="Programming language"/>
+            <column name="option_c" value="Island"/>
+            <column name="option_d" value="Car"/>
+            <column name="correct_option" value="B"/>
+            <column name="created_at" valueDate="2025-05-04T00:00:00"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="inserts-4-tickets" author="zz">
+        <insert tableName="tickets">
+            <column name="id" valueNumeric="1"/>
+            <column name="course_id" valueNumeric="1"/>
+            <column name="ticket_number" valueNumeric="101"/>
+            <column name="created_at" valueDate="2025-05-04T00:00:00"/>
+        </insert>
+        <insert tableName="tickets">
+            <column name="id" valueNumeric="2"/>
+            <column name="course_id" valueNumeric="2"/>
+            <column name="ticket_number" valueNumeric="102"/>
+            <column name="created_at" valueDate="2025-05-04T00:00:00"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="inserts-5-ticketquestions" author="zz">
+        <insert tableName="ticketquestions">
+            <column name="ticket_id" valueNumeric="1"/>
+            <column name="question_id" valueNumeric="1"/>
+        </insert>
+        <insert tableName="ticketquestions">
+            <column name="ticket_id" valueNumeric="1"/>
+            <column name="question_id" valueNumeric="2"/>
+        </insert>
+        <insert tableName="ticketquestions">
+            <column name="ticket_id" valueNumeric="2"/>
+            <column name="question_id" valueNumeric="3"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="inserts-6-checkhistory" author="zz">
+        <insert tableName="checkhistory">
+            <column name="id" valueNumeric="1"/>
+            <column name="user_id" valueNumeric="1"/>
+            <column name="ticket_id" valueNumeric="1"/>
+            <column name="recognized_answers" value="{'1': 'B', '2': 'B'}"/>
+            <column name="score" valueNumeric="2"/>
+            <column name="created_at" valueDate="2025-05-04T00:00:00"/>
+        </insert>
+        <insert tableName="checkhistory">
+            <column name="id" valueNumeric="2"/>
+            <column name="user_id" valueNumeric="2"/>
+            <column name="ticket_id" valueNumeric="2"/>
+            <column name="recognized_answers" value="{'3': 'B'}"/>
+            <column name="score" valueNumeric="1"/>
+            <column name="created_at" valueDate="2025-05-04T00:00:00"/>
+        </insert>
+    </changeSet>
+
+
+</databaseChangeLog>
