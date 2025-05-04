@@ -9,10 +9,13 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
 @Entity
+
 @Table(name = "tickets")
 public class Ticket {
     @Id
@@ -32,4 +35,6 @@ public class Ticket {
     @Column(name = "created_at")
     private Instant createdAt;
 
+    @OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Ticketquestion> ticketquestions = new ArrayList<>();
 }
