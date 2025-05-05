@@ -45,6 +45,8 @@
 @GOTO :EOF
 : end batch / begin powershell #>
 
+git pull
+
 $ErrorActionPreference = "Stop"
 if ($env:MVNW_VERBOSE -eq "true") {
   $VerbosePreference = "Continue"
