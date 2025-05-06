@@ -14,8 +14,8 @@ public class CorsConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**") // або обмежено на /auth/**
-                        .allowedOrigins("*") // або заміни * на конкретне походження, наприклад "https://swagger-ui.com"
+                registry.addMapping("/**")
+                        .allowedOrigins("https://lpnu-backend.ihor-shevchuk.dev")
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
                         .allowCredentials(true);
