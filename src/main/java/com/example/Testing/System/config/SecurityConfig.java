@@ -48,7 +48,7 @@ public class SecurityConfig {
                         .frameOptions(frame -> frame.sameOrigin()) // дозволяємо iframe
                 )
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(
+                        .requestMatchers(HttpMethod.OPTIONS, "/**",
                                 "/auth/**",
                                 "/v3/api-docs/**",
                                 "/swagger-ui/**",
