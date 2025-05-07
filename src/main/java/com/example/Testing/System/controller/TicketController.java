@@ -6,6 +6,7 @@ import com.example.Testing.System.dto.ticket.TicketResponseDto;
 import com.example.Testing.System.mapping.TicketMapper;
 import com.example.Testing.System.model.Ticket;
 import com.example.Testing.System.service.TicketService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -18,6 +19,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@SecurityRequirement(name = "bearerAuth")
 @RestController
 @RequestMapping("/courses/{courseId}/tickets")
 @RequiredArgsConstructor
