@@ -1,7 +1,5 @@
 package com.example.Testing.System.config;
 
-
-
 import com.example.Testing.System.security.JwtAuthenticationFilter;
 import com.example.Testing.System.security.UserDetailsServiceImpl;
 import com.example.Testing.System.security.JwtAuthenticationEntryPoint;
@@ -28,7 +26,6 @@ import static org.springframework.security.config.Customizer.withDefaults;
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtFilter;
-    private final UserDetailsServiceImpl userDetailsService;
     private final JwtAuthenticationEntryPoint authenticationEntryPoint;
     private final JwtAccessDeniedHandler accessDeniedHandler;
 
@@ -36,23 +33,14 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .cors(withDefaults())
-                .csrf(csrf -> csrf.ignoringRequestMatchers(
-                        "/h2-console/**",
-                        "/auth/**",
-                        "/courses/**",
-                        "/users/**",
-                        "/questions/**",
-                        "/tickets/**"
-                        ))
-                .headers(headers -> headers
-                        .frameOptions(frame -> frame.sameOrigin()) // дозволяємо iframe
-                )
+                .csrf(csrf -> csrf.disable()) // Повністю вимикаємо CSRF для API
+                .headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.OPTIONS, "/**",
+                        .requestMatchers(
                                 "/auth/**",
-                                "/v3/api-docs/**",
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
+                                "/v3/api-docs/**",
                                 "/h2-console/**"
                         ).permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
@@ -79,3 +67,4 @@ public class SecurityConfig {
         return config.getAuthenticationManager();
     }
 }
+

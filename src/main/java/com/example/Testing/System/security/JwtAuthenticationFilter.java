@@ -31,6 +31,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         String path = request.getServletPath();
+
+        // Пропускаємо публічні шляхи
         if (path.startsWith("/auth")
                 || path.startsWith("/h2-console")
                 || path.startsWith("/swagger-ui")
