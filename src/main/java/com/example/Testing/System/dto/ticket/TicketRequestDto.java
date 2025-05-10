@@ -10,6 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 public class TicketRequestDto {
-    private Integer ticketNumber;
     private List<Integer> questionIds;
+    private String studentFullName;
+    private String studentGroup;
 }

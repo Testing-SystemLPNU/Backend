@@ -28,7 +28,6 @@ public class Ticket {
     @JoinColumn(name = "course_id", nullable = false)
     private Course course;
 
-    @Column(name = "ticket_number", nullable = false)
     private Integer ticketNumber;
 
     @CreationTimestamp
@@ -37,4 +36,8 @@ public class Ticket {
 
     @OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Ticketquestion> ticketquestions = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "student_id")
+    private Student student;
 }

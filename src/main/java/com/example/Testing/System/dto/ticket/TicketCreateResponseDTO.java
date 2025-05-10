@@ -12,5 +12,7 @@ public class TicketCreateResponseDTO {
     private Integer ticketNumber;
     private Instant createdAt;
     private Integer courseId;
+    private String studentFullName;
+    private String studentGroup;
     private String message;
 }

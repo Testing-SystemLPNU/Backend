@@ -3,9 +3,11 @@
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
-                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.23.xsd
-http://www.liquibase.org/xml/ns/dbchangelog "
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.23.xsd"
         objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+
+    <!-- Існуючі таблиці -->
+
     <changeSet id="1746387980434-1" author="zz">
         <createTable tableName="checkhistory">
             <column autoIncrement="true" name="id" type="INT">
@@ -26,6 +28,7 @@ http://www.liquibase.org/xml/ns/dbchangelog "
             <column name="created_at" type="DATETIME"/>
         </createTable>
     </changeSet>
+
     <changeSet id="1746387980434-2" author="zz">
         <createTable tableName="courses">
             <column autoIncrement="true" name="id" type="INT">
@@ -41,6 +44,7 @@ http://www.liquibase.org/xml/ns/dbchangelog "
             <column name="created_at" type="DATETIME"/>
         </createTable>
     </changeSet>
+
     <changeSet id="1746387980434-3" author="zz">
         <createTable tableName="questions">
             <column autoIncrement="true" name="id" type="INT">
@@ -68,6 +72,7 @@ http://www.liquibase.org/xml/ns/dbchangelog "
             <column name="created_at" type="DATETIME"/>
         </createTable>
     </changeSet>
+
     <changeSet id="1746387980434-4" author="zz">
         <createTable tableName="ticketquestions">
             <column name="ticket_id" type="INT">
@@ -78,6 +83,7 @@ http://www.liquibase.org/xml/ns/dbchangelog "
             </column>
         </createTable>
     </changeSet>
+
     <changeSet id="1746387980434-5" author="zz">
         <createTable tableName="tickets">
             <column autoIncrement="true" name="id" type="INT">
@@ -92,6 +98,7 @@ http://www.liquibase.org/xml/ns/dbchangelog "
             <column name="created_at" type="DATETIME"/>
         </createTable>
     </changeSet>
+
     <changeSet id="1746387980434-6" author="zz">
         <createTable tableName="users">
             <column autoIncrement="true" name="id" type="INT">
@@ -107,42 +114,85 @@ http://www.liquibase.org/xml/ns/dbchangelog "
             <column name="created_at" type="DATETIME"/>
         </createTable>
     </changeSet>
+
     <changeSet id="1746387980434-7" author="zz">
         <addUniqueConstraint columnNames="email" constraintName="uc_users_email" tableName="users"/>
     </changeSet>
+
+    <!-- FOREIGN KEYS -->
+
     <changeSet id="1746387980434-8" author="zz">
         <addForeignKeyConstraint baseColumnNames="ticket_id" baseTableName="checkhistory"
                                  constraintName="FK_CHECKHISTORY_ON_TICKET" onDelete="CASCADE"
                                  referencedColumnNames="id" referencedTableName="tickets"/>
     </changeSet>
+
     <changeSet id="1746387980434-9" author="zz">
         <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="checkhistory"
-                                 constraintName="FK_CHECKHISTORY_ON_USER" onDelete="CASCADE" referencedColumnNames="id"
-                                 referencedTableName="users"/>
+                                 constraintName="FK_CHECKHISTORY_ON_USER" onDelete="CASCADE"
+                                 referencedColumnNames="id" referencedTableName="users"/>
     </changeSet>
+
     <changeSet id="1746387980434-10" author="zz">
-        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="courses" constraintName="FK_COURSES_ON_USER"
-                                 onDelete="CASCADE" referencedColumnNames="id" referencedTableName="users"/>
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="courses"
+                                 constraintName="FK_COURSES_ON_USER" onDelete="CASCADE"
+                                 referencedColumnNames="id" referencedTableName="users"/>
     </changeSet>
+
     <changeSet id="1746387980434-11" author="zz">
         <addForeignKeyConstraint baseColumnNames="course_id" baseTableName="questions"
-                                 constraintName="FK_QUESTIONS_ON_COURSE" onDelete="CASCADE" referencedColumnNames="id"
-                                 referencedTableName="courses"/>
+                                 constraintName="FK_QUESTIONS_ON_COURSE" onDelete="CASCADE"
+                                 referencedColumnNames="id" referencedTableName="courses"/>
     </changeSet>
+
     <changeSet id="1746387980434-12" author="zz">
         <addForeignKeyConstraint baseColumnNames="question_id" baseTableName="ticketquestions"
                                  constraintName="FK_TICKETQUESTIONS_ON_QUESTION" onDelete="CASCADE"
                                  referencedColumnNames="id" referencedTableName="questions"/>
     </changeSet>
+
     <changeSet id="1746387980434-13" author="zz">
         <addForeignKeyConstraint baseColumnNames="ticket_id" baseTableName="ticketquestions"
                                  constraintName="FK_TICKETQUESTIONS_ON_TICKET" onDelete="CASCADE"
                                  referencedColumnNames="id" referencedTableName="tickets"/>
     </changeSet>
+
     <changeSet id="1746387980434-14" author="zz">
         <addForeignKeyConstraint baseColumnNames="course_id" baseTableName="tickets"
-                                 constraintName="FK_TICKETS_ON_COURSE" onDelete="CASCADE" referencedColumnNames="id"
-                                 referencedTableName="courses"/>
+                                 constraintName="FK_TICKETS_ON_COURSE" onDelete="CASCADE"
+                                 referencedColumnNames="id" referencedTableName="courses"/>
+    </changeSet>
+
+    <!-- ✅ НОВЕ: Таблиця STUDENTS -->
+    <changeSet id="student-1" author="zz">
+        <createTable tableName="students">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="pk_students"/>
+            </column>
+            <column name="full_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="group_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="DATETIME"/>
+        </createTable>
+    </changeSet>
+
+    <!-- ✅ Додати student_id в tickets -->
+    <changeSet id="student-2" author="zz">
+        <addColumn tableName="tickets">
+            <column name="student_id" type="INT"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="student-3" author="zz">
+        <addForeignKeyConstraint baseTableName="tickets"
+                                 baseColumnNames="student_id"
+                                 referencedTableName="students"
+                                 referencedColumnNames="id"
+                                 constraintName="FK_TICKETS_ON_STUDENT"
+                                 onDelete="SET NULL"/>
     </changeSet>
 
 </databaseChangeLog>

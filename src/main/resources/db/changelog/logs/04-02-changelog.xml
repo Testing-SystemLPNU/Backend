@@ -4,7 +4,8 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.29.xsd">
-    <changeSet id="inserts-1-users" author="zz">
+
+    <changeSet id="inserts-1-users1" author="zz">
         <insert tableName="users">
             <column name="id" valueNumeric="1"/>
             <column name="email" value="use1r@example.com"/>
@@ -21,7 +22,7 @@
         </insert>
     </changeSet>
 
-    <changeSet id="inserts-2-courses" author="zz">
+    <changeSet id="inserts-2-courses2" author="zz">
         <insert tableName="courses">
             <column name="id" valueNumeric="1"/>
             <column name="user_id" valueNumeric="1"/>
@@ -38,7 +39,7 @@
         </insert>
     </changeSet>
 
-    <changeSet id="inserts-3-questions" author="zz">
+    <changeSet id="inserts-3-questions3" author="zz">
         <insert tableName="questions">
             <column name="id" valueNumeric="1"/>
             <column name="course_id" valueNumeric="1"/>
@@ -74,7 +75,7 @@
         </insert>
     </changeSet>
 
-    <changeSet id="inserts-4-tickets" author="zz">
+    <changeSet id="inserts-4-tickets5" author="zz">
         <insert tableName="tickets">
             <column name="id" valueNumeric="1"/>
             <column name="course_id" valueNumeric="1"/>

@@ -15,5 +15,7 @@ public class TicketResponseDto {
     private Integer ticketNumber;
     private Instant createdAt;
     private Integer courseId;
+    private String studentFullName;
+    private String studentGroup;
     private List<QuestionResponseDto> questions;
 }

@@ -90,9 +90,28 @@ public class TicketController {
             @AuthenticationPrincipal UserDetails userDetails
     ) throws IOException {
         byte[] pdf = ticketService.generatePdf(id, userDetails.getUsername());
+        Ticket ticket = ticketService.getById(id, userDetails.getUsername());
+
+
+        String studentName = ticket.getStudent() != null
+                ? ticket.getStudent().getFullName().trim().replaceAll("\\s+", "_")
+                : "student";
+
+        String groupName = ticket.getStudent() != null && ticket.getStudent().getGroupName() != null
+                ? ticket.getStudent().getGroupName().trim().replaceAll("\\s+", "_")
+                : "group";
+
+        String ticketNumber = ticket.getTicketNumber() != null
+                ? String.valueOf(ticket.getTicketNumber())
+                : String.valueOf(ticket.getId());
+
+
+        String fileName = studentName + "_" + groupName + "_ticket_" + ticketNumber + ".pdf";
+
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=ticket-" + id + ".pdf")
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName)
                 .contentType(MediaType.APPLICATION_PDF)
                 .body(pdf);
     }
+
 }
