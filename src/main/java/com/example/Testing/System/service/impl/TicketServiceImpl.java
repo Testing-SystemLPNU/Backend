@@ -141,7 +141,7 @@ public class TicketServiceImpl implements TicketService {
         PdfWriter writer = new PdfWriter(baos);
         PdfDocument pdfDoc = new PdfDocument(writer);
         Document document = new Document(pdfDoc, PageSize.A4);
-        document.setMargins(20, 40, 20, 40); // нижчі верх/низ відступи
+        document.setMargins(20, 40, 20, 40);
 
         PdfFont font;
         try {
@@ -150,20 +150,24 @@ public class TicketServiceImpl implements TicketService {
             throw new RuntimeException("Font error", e);
         }
         document.setFont(font);
-
         float fontSize = 10f;
 
-        // Заголовок
-        document.add(new Paragraph("Ticket # " + ticket.getTicketNumber()).setFont(font).setFontSize(fontSize));
-        document.add(new Paragraph("Course Name: " + ticket.getCourse().getTitle()).setFont(font).setFontSize(fontSize));
-
         List<Ticketquestion> ticketQuestions = ticket.getTicketquestions();
-        int index = 1;
+        int totalQuestions = ticketQuestions.size();
 
-        for (Ticketquestion tq : ticketQuestions) {
-            if (index > 10) break;
+        for (int i = 0; i < totalQuestions; i++) {
+            // Початок нової сторінки кожні 10 питань
+            if (i % 10 == 0) {
+                if (i != 0) {
+                    document.add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                }
+                document.add(new Paragraph("Ticket # " + ticket.getTicketNumber()).setFont(font).setFontSize(fontSize));
+                document.add(new Paragraph("Course Name: " + ticket.getCourse().getTitle()).setFont(font).setFontSize(fontSize));
+                document.add(new Paragraph("\n"));
+            }
 
-            Question q = tq.getQuestion();
+            Question q = ticketQuestions.get(i).getQuestion();
+            int index = i + 1;
 
             document.add(new Paragraph(index + ". " + q.getQuestionText())
                     .setFont(font)
@@ -179,24 +183,20 @@ public class TicketServiceImpl implements TicketService {
                     .setFont(font)
                     .setFontSize(fontSize)
                     .setMarginBottom(7));
-
-            index++;
         }
 
-        // Друга сторінка
         document.add(new AreaBreak(AreaBreakType.NEXT_PAGE));
-
         document.add(new Paragraph("Name: " + ticket.getStudent().getFullName()).setFont(font).setFontSize(fontSize));
         document.add(new Paragraph("Group: " + ticket.getStudent().getGroupName()).setFont(font).setFontSize(fontSize));
         document.add(new Paragraph("Ticket # " + ticket.getTicketNumber()).setFont(font).setFontSize(fontSize));
         document.add(new Paragraph("Course Name: " + ticket.getCourse().getTitle()).setFont(font).setFontSize(fontSize));
         document.add(new Paragraph("\n"));
 
-        // Таблиця відповідей
+
         Table answerTable = new Table(new float[]{1, 1, 1, 1, 1});
         answerTable.setWidth(150);
 
-        for (int i = 1; i <= ticketQuestions.size(); i++) {
+        for (int i = 1; i <= totalQuestions; i++) {
             answerTable.addCell(new Cell().add(new Paragraph(i + ")")).setFont(font).setFontSize(fontSize).setBold().setTextAlignment(TextAlignment.CENTER));
             answerTable.addCell(new Cell().add(new Paragraph("A")).setFont(font).setFontSize(fontSize).setTextAlignment(TextAlignment.CENTER));
             answerTable.addCell(new Cell().add(new Paragraph("B")).setFont(font).setFontSize(fontSize).setTextAlignment(TextAlignment.CENTER));
