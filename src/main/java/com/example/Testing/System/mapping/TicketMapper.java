@@ -55,15 +55,3 @@ public class TicketMapper {
         return dto;
     }
 }
-/*
-curl -X POST https://openrouter.ai/api/v1/chat/completions \
-  -H "Authorization: Bearer <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>" \
-  -H "Content-Type: application/json" \
-  -H "HTTP-Referer: https://lpnu-backend.ihor-shevchuk.dev" \
-  -H "X-Title: AI-Question-Gen" \
-  -d '{
-        "model": "mistralai/mistral-7b-instruct",
-        "messages": [{"role": "user", "content": "Say hi"}],
-        "temperature": 0.7
-      }'
- */
