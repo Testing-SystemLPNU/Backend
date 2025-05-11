@@ -16,7 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/courses")
 @RequiredArgsConstructor
-//@SecurityRequirement(name = "bearerAuth")
+@SecurityRequirement(name = "bearerAuth")
 public class QuestionGenerationController {
 
     private final AIQuestionServiceImpl aiQuestionService;
