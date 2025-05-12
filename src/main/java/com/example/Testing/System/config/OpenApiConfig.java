@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @OpenAPIDefinition(
         info = @Info(title = "Testing System API", version = "1.0"),
-        security = @SecurityRequirement(name = "bearerAuth") // <-- додає авторизацію для всіх
+        security = @SecurityRequirement(name = "bearerAuth")
 )
 @SecurityScheme(
         name = "bearerAuth",

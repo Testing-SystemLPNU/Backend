@@ -23,11 +23,9 @@ public class QuestionGenerationController {
 
     @PostMapping(value = "/{courseId}/questions/generate", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<List<QuestionDto>> generateQuestions(
-          //  @RequestParam("file") MultipartFile file,
-          @RequestPart("file") MultipartFile file,
+            @RequestParam("file") MultipartFile file,
             @PathVariable Integer courseId
     ) throws IOException {
-
         List<Question> saved = aiQuestionService.generateAndSaveQuestions(file, courseId);
         List<QuestionDto> result = saved.stream().map(q -> new QuestionDto(
                 q.getQuestionText(),
