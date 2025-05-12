@@ -99,7 +99,8 @@ public class AIQuestionServiceImpl implements AIQuestionService {
     private String callOpenAI(String prompt) {
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(openaiApiKey);
-        headers.set("HTTP-Referer", "https://lpnu-backend.ihor-shevchuk.dev");
+        headers.set("Referer", "https://lpnu-backend.ihor-shevchuk.dev");
+        //headers.set("HTTP-Referer", "http://localhost");
         headers.set("X-Title", "AI-Question-Gen");
         headers.setContentType(MediaType.APPLICATION_JSON);
 
