@@ -9,7 +9,6 @@ import com.example.Testing.System.service.AIQuestionService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.springframework.http.HttpEntity;
@@ -32,9 +31,6 @@ public class AIQuestionServiceImpl implements AIQuestionService {
     private final QuestionRepository questionRepo;
     private final CourseRepository courseRepo;
 
-    @Value("${openai.api.key}")
-    private String openaiApiKey;
-
     @Override
     public List<Question> generateAndSaveQuestions(MultipartFile file, Integer courseId) throws IOException {
         Course course = courseRepo.findById(courseId)
@@ -42,7 +38,7 @@ public class AIQuestionServiceImpl implements AIQuestionService {
 
         String content = extractTextFromFile(file);
         String prompt = buildPrompt(content);
-        String aiResponse = callOpenAI(prompt);
+        String aiResponse = callOllama(prompt);
         List<QuestionDto> questionDtos = parseResponse(aiResponse);
 
         List<Question> saved = questionDtos.stream().map(dto -> {
@@ -96,32 +92,28 @@ public class AIQuestionServiceImpl implements AIQuestionService {
            """.formatted(theory);
     }
 
-    private String callOpenAI(String prompt) {
+    private String callOllama(String prompt) {
         HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth(openaiApiKey);
-        headers.set("HTTP-Referer", "https://lpnu-backend.ihor-shevchuk.dev");
-        headers.set("X-Title", "AI-Question-Gen");
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         Map<String, Object> requestBody = Map.of(
-                "model", "mistralai/mistral-7b-instruct",
-                "messages", List.of(Map.of("role", "user", "content", prompt)),
-                "temperature", 0.7
+                "model", "llama3.2",
+                "prompt", prompt,
+                "stream", false
         );
 
         HttpEntity<Map<String, Object>> request = new HttpEntity<>(requestBody, headers);
         RestTemplate restTemplate = new RestTemplate();
 
         ResponseEntity<Map> response = restTemplate.postForEntity(
-                "https://openrouter.ai/api/v1/chat/completions",
+                "http://localhost:11434/api/generate",
                 request,
                 Map.class
         );
+        System.out.println("🧠 AI Response:\n" + response.getBody().get("response"));
 
-        List<Map<String, Object>> choices = (List<Map<String, Object>>) response.getBody().get("choices");
-        return (String) ((Map<String, Object>) choices.get(0).get("message")).get("content");
+        return (String) response.getBody().get("response");
     }
-
 
     private List<QuestionDto> parseResponse(String response) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
@@ -134,7 +126,6 @@ public class AIQuestionServiceImpl implements AIQuestionService {
             trimmed = trimmed + "]";
         }
 
-        // Часті виправлення: закривання та коми між об’єктами
         trimmed = trimmed
                 .replaceAll("}\\s*\\{", "}, {")
                 .replaceAll(",\\s*]", "]")
@@ -148,5 +139,4 @@ public class AIQuestionServiceImpl implements AIQuestionService {
             throw ex;
         }
     }
-
 }
