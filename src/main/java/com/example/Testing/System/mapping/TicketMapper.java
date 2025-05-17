@@ -25,10 +25,11 @@ public class TicketMapper {
             dto.setStudentFullName(ticket.getStudent().getFullName());
             dto.setStudentGroup(ticket.getStudent().getGroupName());
         }
-        dto.setQuestions(
-                ticket.getTicketquestions().stream()
-                        .map(tq -> QuestionMapper.toResponseDto(tq.getQuestion()))
-                        .collect(Collectors.toList())
+
+        dto.setQuestionIds(
+            ticket.getTicketquestions().stream()
+                    .map(tq -> QuestionMapper.toResponseDto(tq.getQuestion()).getId())
+                    .collect(Collectors.toList())
         );
         return dto;
     }
